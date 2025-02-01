@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmphf5duk04uq"]
+[gd_scene load_steps=10 format=3 uid="uid://bmphf5duk04uq"]
 
 [ext_resource type="Texture2D" uid="uid://cr1fen3slmvwm" path="res://sprites/tilesets/plains.png" id="1_5gj6b"]
 [ext_resource type="Texture2D" uid="uid://d3y2fuc8lv6aw" path="res://sprites/tilesets/grass.png" id="2_feycx"]
 [ext_resource type="Texture2D" uid="uid://b67inrs3njfvb" path="res://sprites/objects/objects.png" id="3_xi8rd"]
 [ext_resource type="PackedScene" uid="uid://bopnc7ijraw7j" path="res://scenes/player.tscn" id="4_2aa5j"]
+[ext_resource type="PackedScene" uid="uid://55u1e6lkdkf6" path="res://scenes/slime.tscn" id="5_45y2h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_433gl"]
 texture = ExtResource("1_5gj6b")
@@ -43,25 +44,42 @@ texture = ExtResource("2_feycx")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2oido"]
 texture = ExtResource("3_xi8rd")
 0:0/0 = 0
+0:0/0/y_sort_origin = 3
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-0.530329, 0.707106, 8, 1.41421, 0, 4.94975, -8, 1.59099)
 0:1/0 = 0
+0:1/0/y_sort_origin = 3
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(0.176777, 0.176777, 6.18719, 4.24264, 0.353554, 8, -8, 1.59099)
 5:0/0 = 0
+5:0/0/y_sort_origin = 4
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(6.18719, 1.41421, 6.36396, 6.36396, -6.36396, 6.36396, -6.36396, 1.41421)
 0:5/size_in_atlas = Vector2i(3, 4)
 0:5/0 = 0
+0:5/0/y_sort_origin = 16
+0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 8, 8, 12.3744, 18.7383, 7.42462, 26.5165, -7.07107, 26.5165, -12.0208, 19.4454)
 6:7/size_in_atlas = Vector2i(2, 2)
 6:7/0 = 0
+6:7/0/y_sort_origin = 5
+6:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 4, 8, 4.5, 14.75, 9, 7.42462, 14.4957, -5.65685, 14.8492, -15.25, 8.25)
 8:6/size_in_atlas = Vector2i(2, 3)
 8:6/0 = 0
+8:6/0/y_sort_origin = 12
+8:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(0.353554, 8, 9.19239, 12.3744, 6.36396, 20.1525, 0.707108, 21.9203, -6.01041, 19.799, -8.83883, 12.0208)
 10:7/size_in_atlas = Vector2i(2, 2)
 10:7/0 = 0
+10:7/0/y_sort_origin = 6
+10:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-0.35355, 2.47487, 11.6673, 2.82843, 8, 8, 0.707108, 8, -8, 8, -12.3744, 3.53553)
 
 [sub_resource type="TileSet" id="TileSet_34r74"]
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_433gl")
 sources/1 = SubResource("TileSetAtlasSource_78k6b")
 sources/2 = SubResource("TileSetAtlasSource_2oido")
 
 [node name="World" type="Node2D"]
+y_sort_enabled = true
 
 [node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
 tile_set = SubResource("TileSet_34r74")
 format = 2
 layer_0/name = "ground"
@@ -69,7 +87,11 @@ layer_0/tile_data = PackedInt32Array(0, 196608, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4,
 layer_1/name = "cliff"
 layer_1/tile_data = PackedInt32Array(25, 131072, 5, 24, 131072, 5, 23, 131072, 5, 22, 131072, 5, 21, 131072, 5, 20, 131072, 5, 19, 131072, 5, 18, 131072, 5, 17, 131072, 5, 16, 65536, 5, 65552, 65536, 6, 65553, 131072, 6, 65554, 327680, 4, 131090, 65536, 6, 131091, 131072, 6, 131092, 131072, 6, 131093, 131072, 6, 131094, 131072, 6, 131095, 131072, 6, 131096, 131072, 6, 131097, 131072, 6, 65555, 131072, 5, 65556, 131072, 5, 65557, 131072, 5, 65558, 131072, 5, 65559, 131072, 5, 65560, 131072, 5, 65561, 131072, 5)
 layer_2/name = "objects"
+layer_2/y_sort_enabled = true
 layer_2/tile_data = PackedInt32Array(2, 655362, 7, 262150, 655362, 7, 262163, 655362, 7, 24, 655362, 7, 655367, 655362, 7, 7, 2, 5, 196624, 2, 5, 589835, 2, 5, 524289, 2, 5, 65540, 524290, 6, 12, 524290, 6, 131094, 524290, 6, 524312, 524290, 6, 655375, 524290, 6, 19, 393218, 7, 655381, 393218, 7, 720900, 393218, 7, 327689, 2, 1, 393234, 2, 1, 786451, 2, 1, 655378, 2, 0, 720920, 2, 1, 65546, 2, 1, 65557, 2, 1, 720897, 2, 1, 196620, 327682, 0, 589837, 327682, 0)
 
 [node name="Player" parent="." instance=ExtResource("4_2aa5j")]
-position = Vector2(195, 86)
+position = Vector2(55, 125)
+
+[node name="slime" parent="." instance=ExtResource("5_45y2h")]
+position = Vector2(228, 57)
