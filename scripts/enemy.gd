@@ -11,8 +11,9 @@ var in_attack_zone = false
 
 func _physics_process(delta):
 	get_damage()
+	update_health()
 	
-	if chase_player:
+	if chase_player and in_attack_zone == false:
 		position += (player.position - position) / speed
 		$AnimatedSprite2D.play("walk")
 		
@@ -25,13 +26,15 @@ func _physics_process(delta):
 		$AnimatedSprite2D.play("idle")
 
 func _on_detection_area_body_entered(body):
-	player = body
-	chase_player = true
+	if (body.has_method("player")):
+		player = body
+		chase_player = true
 
 
 func _on_detection_area_body_exited(body):
-	player = null
-	chase_player = false
+	if (body.has_method("player")):
+		player = null
+		chase_player = false
 
 func enemy():
 	pass
@@ -59,3 +62,11 @@ func get_damage():
 
 func _on_damage_cooldown_timeout():
 	can_take_damage = true
+
+func update_health():
+	$ProgressBar.value = health
+	
+	if health >= 100:
+		$ProgressBar.visible = false
+	else:
+		$ProgressBar.visible = true

@@ -7,16 +7,23 @@ var in_attack_range = false
 var in_attack_cooldown = true
 var attack_in_progress = false
 
-var health = 200
+var health = 100
 var is_alive = true
 
 func _ready():
+	if global.spawn_point == 'start':
+		position = Vector2(60, 100)
+	if global.spawn_point == 'exit_cliff':
+		position = Vector2(400, 120)
+	if global.spawn_point == 'enter_cliff':
+		position = Vector2(10, 70)
 	$AnimatedSprite2D.play("front_idle")
 
 func _physics_process(delta):
 	player_movement(delta)
 	get_damage()
 	attack()
+	update_health()
 	
 	if health <= 0:
 		health = 0
@@ -54,7 +61,10 @@ func player_movement(delta):
 		velocity.y = 0
 	
 	move_and_slide()
-	
+
+func set_player_pos(pos):
+	position = pos
+
 func play_animation(movement):
 	var dir = current_dir
 	var anim = $AnimatedSprite2D
@@ -104,7 +114,7 @@ func player():
 
 func get_damage():
 	if in_attack_range and in_attack_cooldown:
-		health -= 20
+		health -= 10
 		in_attack_cooldown = false
 		$attack_cooldown.start()
 		print("player health:", health)
@@ -134,8 +144,20 @@ func attack():
 			$AnimatedSprite2D.play("front_attack")
 			$attack_timer.start()
 
+func update_health():
+	$ProgressBar.value = health
+	
+	if health >= 100:
+		$ProgressBar.visible = false
+	else:
+		$ProgressBar.visible = true
+
 func _on_attack_timer_timeout():
 	$attack_timer.stop()
 
 	global.is_attacking = false
 	attack_in_progress = false
+
+func _on_health_recovery_timeout():
+	if health > 0 and health < 100:
+		health += 20

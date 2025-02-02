@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmphf5duk04uq"]
+[gd_scene load_steps=12 format=3 uid="uid://bmphf5duk04uq"]
 
 [ext_resource type="Texture2D" uid="uid://cr1fen3slmvwm" path="res://sprites/tilesets/plains.png" id="1_5gj6b"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_ulfdq"]
 [ext_resource type="Texture2D" uid="uid://d3y2fuc8lv6aw" path="res://sprites/tilesets/grass.png" id="2_feycx"]
 [ext_resource type="Texture2D" uid="uid://b67inrs3njfvb" path="res://sprites/objects/objects.png" id="3_xi8rd"]
 [ext_resource type="PackedScene" uid="uid://bopnc7ijraw7j" path="res://scenes/player.tscn" id="4_2aa5j"]
 [ext_resource type="PackedScene" uid="uid://55u1e6lkdkf6" path="res://scenes/slime.tscn" id="5_45y2h"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_433gl"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_52607"]
 texture = ExtResource("1_5gj6b")
 2:1/0 = 0
 1:1/0 = 0
@@ -37,11 +38,11 @@ texture = ExtResource("1_5gj6b")
 4:6/0 = 0
 5:6/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_78k6b"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eysor"]
 texture = ExtResource("2_feycx")
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2oido"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p3let"]
 texture = ExtResource("3_xi8rd")
 0:0/0 = 0
 0:0/0/y_sort_origin = 3
@@ -71,12 +72,16 @@ texture = ExtResource("3_xi8rd")
 
 [sub_resource type="TileSet" id="TileSet_34r74"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_433gl")
-sources/1 = SubResource("TileSetAtlasSource_78k6b")
-sources/2 = SubResource("TileSetAtlasSource_2oido")
+sources/0 = SubResource("TileSetAtlasSource_52607")
+sources/1 = SubResource("TileSetAtlasSource_eysor")
+sources/2 = SubResource("TileSetAtlasSource_p3let")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xltj"]
+size = Vector2(11, 44)
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
+script = ExtResource("1_ulfdq")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -91,7 +96,20 @@ layer_2/y_sort_enabled = true
 layer_2/tile_data = PackedInt32Array(2, 655362, 7, 262150, 655362, 7, 262163, 655362, 7, 24, 655362, 7, 655367, 655362, 7, 7, 2, 5, 196624, 2, 5, 589835, 2, 5, 524289, 2, 5, 65540, 524290, 6, 12, 524290, 6, 131094, 524290, 6, 524312, 524290, 6, 655375, 524290, 6, 19, 393218, 7, 655381, 393218, 7, 720900, 393218, 7, 327689, 2, 1, 393234, 2, 1, 786451, 2, 1, 655378, 2, 0, 720920, 2, 1, 65546, 2, 1, 65557, 2, 1, 720897, 2, 1, 196620, 327682, 0, 589837, 327682, 0)
 
 [node name="Player" parent="." instance=ExtResource("4_2aa5j")]
-position = Vector2(55, 125)
+position = Vector2(60, 100)
 
 [node name="slime" parent="." instance=ExtResource("5_45y2h")]
-position = Vector2(228, 57)
+position = Vector2(224, 60)
+
+[node name="colliders" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="colliders"]
+polygon = PackedVector2Array(0, 1, 0, 208, 416, 208, 416, 126, 428, 126, 428, 79, 416, 79, 416, 46, 292, 46, 292, 30, 258, 30, 257, -1, 1, 0, -13, -17, 436, -14, 436, 220, -13, 221, -13, -16)
+
+[node name="cliff_trigger" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cliff_trigger"]
+position = Vector2(421.5, 103)
+shape = SubResource("RectangleShape2D_3xltj")
+
+[connection signal="body_entered" from="cliff_trigger" to="." method="_on_cliff_trigger_body_entered"]

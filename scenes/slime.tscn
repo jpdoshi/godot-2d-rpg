@@ -164,6 +164,14 @@ shape = SubResource("CircleShape2D_8pob0")
 [node name="damage_cooldown" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(1, 0, 0, 1)
+offset_right = 120.0
+offset_bottom = 27.0
+scale = Vector2(0.15, 0.15)
+pivot_offset = Vector2(-10, -24)
+show_percentage = false
+
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
